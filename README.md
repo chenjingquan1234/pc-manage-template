@@ -14,5 +14,15 @@
    - utils 工具方法
    - views 页面文件
 
+
+## 项目说明
+vite.config.js配置封装完毕
+1.使用插件 rolluo-plugin-visuallizer 查看代码分析
+2.使用插件 unplugin-auto-import/vite 自动引入vue的函数
+3.配置路径别名，并且配置引入时不写后缀，自动匹配
+4.打包时指定目录，分开测试，正式环境，打包
+5.配置代理，请求接口
+6.引入环境变量，测试环境时显示源码map，console,正式则取消
+
 ## 文档地址
 
