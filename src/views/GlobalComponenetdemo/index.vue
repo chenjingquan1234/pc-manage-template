@@ -6,7 +6,14 @@
 </template>
 
 <script setup lang="ts">
+import $api from "@/apis";
+import $util from "@/utils";
 import { ref } from "vue";
+
+onMounted(() => {
+  $util.desensitizeUtil.desensitizeValue
+  $api.password.getCipherToken
+})
 </script>
 
 <style lang="scss" scoped>

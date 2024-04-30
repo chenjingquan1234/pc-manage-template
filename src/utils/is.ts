@@ -1,117 +1,146 @@
 // copy to vben-admin
 
-const toString = Object.prototype.toString
+const toString = Object.prototype.toString;
 
-export const is = (val: unknown, type: string) => {
-  return toString.call(val) === `[object ${type}]`
-}
+export default {
+  is(val: unknown, type: string) {
+    return toString.call(val) === `[object ${type}]`;
+  },
 
-export const isDef = <T = unknown>(val?: T): val is T => {
-  return typeof val !== 'undefined'
-}
+  isDef<T = unknown>(val?: T): val is T {
+    return typeof val !== "undefined";
+  },
 
-export const isUnDef = <T = unknown>(val?: T): val is T => {
-  return !isDef(val)
-}
+  isUnDef<T = unknown>(val?: T): val is T {
+    return !this.isDef(val);
+  },
 
-export const isObject = (val: any): val is Record<any, any> => {
-  return val !== null && is(val, 'Object')
-}
+  isObject(val: any): val is Record<any, any> {
+    return val !== null && this.is(val, "Object");
+  },
 
-export const isEmpty = <T = unknown>(val: T): val is T => {
-  if (val === null) {
-    return true
-  }
-  if (isArray(val) || isString(val)) {
-    return val.length === 0
-  }
+  /**
+   * 是否为空
+   * @param val 
+   * @returns 
+   */
+  isEmpty<T = unknown>(val: T): val is T {
+    if (val === null) {
+      return true;
+    }
+    if (this.isArray(val) || this.isString(val)) {
+      return val.length === 0;
+    }
 
-  if (val instanceof Map || val instanceof Set) {
-    return val.size === 0
-  }
+    if (val instanceof Map || val instanceof Set) {
+      return val.size === 0;
+    }
 
-  if (isObject(val)) {
-    return Object.keys(val).length === 0
-  }
+    if (this.isObject(val)) {
+      return Object.keys(val).length === 0;
+    }
 
-  return false
-}
+    return false;
+  },
 
-export const isDate = (val: unknown): val is Date => {
-  return is(val, 'Date')
-}
+  /**
+   * 是否日期类型
+   * @param val 
+   * @returns 
+   */
+  isDate(val: unknown): val is Date {
+    return this.is(val, "Date");
+  },
 
-export const isNull = (val: unknown): val is null => {
-  return val === null
-}
+  /**
+   * 是否为null
+   * @param val 
+   * @returns 
+   */
+  isNull(val: unknown): val is null {
+    return val === null;
+  },
 
-export const isNullAndUnDef = (val: unknown): val is null | undefined => {
-  return isUnDef(val) && isNull(val)
-}
+  isNullAndUnDef(val: unknown): val is null | undefined {
+    return this.isUnDef(val) && this.isNull(val);
+  },
 
-export const isNullOrUnDef = (val: unknown): val is null | undefined => {
-  return isUnDef(val) || isNull(val)
-}
+  isNullOrUnDef(val: unknown): val is null | undefined {
+    return this.isUnDef(val) || this.isNull(val);
+  },
 
-export const isNumber = (val: unknown): val is number => {
-  return is(val, 'Number')
-}
+  /**
+   * 是否为数字
+   * @param val 
+   * @returns 
+   */
+  isNumber(val: unknown): val is number {
+    return this.is(val, "Number");
+  },
 
-export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
-  return is(val, 'Promise') && isObject(val) && isFunction(val.then) && isFunction(val.catch)
-}
+  isPromise<T = any>(val: unknown): val is Promise<T> {
+    return (
+      this.is(val, "Promise") &&
+      this.isObject(val) &&
+      this.isFunction(val.then) &&
+      this.isFunction(val.catch)
+    );
+  },
 
-export const isString = (val: unknown): val is string => {
-  return is(val, 'String')
-}
+  isString(val: unknown): val is string {
+    return this.is(val, "String");
+  },
 
-export const isFunction = (val: unknown): val is Function => {
-  return typeof val === 'function'
-}
+  isFunction(val: unknown): val is Function {
+    return typeof val === "function";
+  },
 
-export const isBoolean = (val: unknown): val is boolean => {
-  return is(val, 'Boolean')
-}
+  isBoolean(val: unknown): val is boolean {
+    return this.is(val, "Boolean");
+  },
 
-export const isRegExp = (val: unknown): val is RegExp => {
-  return is(val, 'RegExp')
-}
+  isRegExp(val: unknown): val is RegExp {
+    return this.is(val, "RegExp");
+  },
 
-export const isArray = (val: any): val is Array<any> => {
-  return val && Array.isArray(val)
-}
+  isArray(val: any): val is Array<any> {
+    return val && Array.isArray(val);
+  },
 
-export const isWindow = (val: any): val is Window => {
-  return typeof window !== 'undefined' && is(val, 'Window')
-}
+  isWindow(val: any): val is Window {
+    return typeof window !== "undefined" && this.is(val, "Window");
+  },
 
-export const isElement = (val: unknown): val is Element => {
-  return isObject(val) && !!val.tagName
-}
+  isElement(val: unknown): val is Element {
+    return this.isObject(val) && !!val.tagName;
+  },
 
-export const isMap = (val: unknown): val is Map<any, any> => {
-  return is(val, 'Map')
-}
+  isMap(val: unknown): val is Map<any, any> {
+    return this.is(val, "Map");
+  },
 
-export const isServer = typeof window === 'undefined'
+  isServer: typeof window === "undefined",
 
-export const isClient = !isServer
+  isClient: typeof window !== "undefined",
 
-export const isUrl = (path: string): boolean => {
-  const reg =
-    /(((^https?:(?:\/\/)?)(?:[-:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&%@.\w_]*)#?(?:[\w]*))?)$/
-  return reg.test(path)
-}
+  isUrl(path: string): boolean {
+    const reg =
+      /(((^https?:(?:\/\/)?)(?:[-:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&%@.\w_]*)#?(?:[\w]*))?)$/;
+    return reg.test(path);
+  },
 
-export const isDark = (): boolean => {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-}
+  isDark(): boolean {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  },
 
-// 是否是图片链接
-export const isImgPath = (path: string): boolean => {
-  return /(https?:\/\/|data:image\/).*?\.(png|jpg|jpeg|gif|svg|webp|ico)/gi.test(path)
-}
+  // 是否是图片链接
+  isImgPath(path: string): boolean {
+    return /(https?:\/\/|data:image\/).*?\.(png|jpg|jpeg|gif|svg|webp|ico)/gi.test(
+      path
+    );
+  },
 
-export const isEmptyVal = (val: any): boolean => {
-  return val === '' || val === null || val === undefined
-}
+  isEmptyVal(val: any): boolean {
+    return val === "" || val === null || val === undefined;
+  },
+};

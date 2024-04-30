@@ -1,7 +1,6 @@
 import router from "../router";
 import axios from "axios";
-import { showDialog } from "vant/lib/dialog";
-import { showNotify } from "vant/lib/notify";
+import { ElMessage } from "element-plus";
 
 // axios.defaults.withCredentials = true;
 // const BASE_URL = window.location.origin + '/dbvisitorsvc'
@@ -45,9 +44,6 @@ instance.interceptors.response.use(
       sessionStorage.clear();
       router.replace({
         path: "/login",
-        query: {
-          qywxType: 4,
-        },
       });
       return response.data;
     }
@@ -110,23 +106,26 @@ const _request = async (
     const { retCode: retCode, retMessage: retMessage } = res as any;
     // 错误提示处理，这里只处理错误提示，逻辑还是需要在外层判断retCode
     if (retCode !== 0 && (showMsg || errorMsg)) {
-      showDialog({
-        title: "提示",
+      ElMessage({
+        type: "error",
         message: retMessage,
       });
 
-      return Promise.reject(res)
+      return Promise.reject(res);
     }
     // 成功提示处理
     if (retCode == 0 && (showMsg || successMsg || successText)) {
-      showNotify({ type: "success", message: successText || "操作成功" });
+      ElMessage({
+        type: "success",
+        message: successText || "操作成功",
+      });
     }
 
     return res;
   } catch (err) {
     if (showMsg || errorMsg) {
-      showDialog({
-        title: "网络错误",
+      ElMessage({
+        type: "error",
         message: JSON.stringify(err),
       });
     }
