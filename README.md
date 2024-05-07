@@ -25,4 +25,5 @@ vite.config.js配置封装完毕
 6.引入环境变量，测试环境时显示源码map，console,正式则取消
 
 ## 文档地址
+prettier： https://www.prettier.cn/docs/options.html
 

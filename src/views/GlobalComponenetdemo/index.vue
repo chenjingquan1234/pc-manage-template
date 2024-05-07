@@ -1,6 +1,6 @@
 <template>
   <div class="component-demo-root">
-    <AppButton></AppButton>
+    <AppButton ></AppButton>
     
   </div>
 </template>
@@ -12,7 +12,7 @@ import { ref } from "vue";
 
 onMounted(() => {
   $util.desensitizeUtil.desensitizeValue
-  $api.password.getCipherToken
+  $api.password.checkWiiPassword
 })
 </script>
 
